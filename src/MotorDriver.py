@@ -10,13 +10,14 @@ class MotorDriver:
         @param en_pin (There will be several parameters)
         """
         print ("Creating a motor driver")
-            
-           in1pin = pyb.Pin(pyb.Pin.board.IN1A, pyb.Pin.OUT_PP)
-           in2pin = pyb.Pin(pyb.Pin.board.IN2A, pyb.Pin.OUT_PP)
+        en_pin = pyb.Pin(en_pin, pyb.Pin.OUT_PP)
+        en_pin.value(1)
+        self.in1pin = pyb.Pin(in1pin, pyb.Pin.OUT_PP) # allows variable to be used across functions
+        self.in2pin = pyb.Pin(in2pin, pyb.Pin.OUT_PP)
 
-           tim2 = pyb.Timer(2, freq=10000)
-           ch1 = tim2.channel(1, pyb.Timer.PWM, pin=in1pin) # control motor direction
-           ch2 = tim2.channel(2, pyb.Timer.PWM, pin=in2pin)
+        tim2 = pyb.Timer(timer, freq=100)
+        self.ch1 = tim2.channel(1, pyb.Timer.PWM, pin=self.in1pin) # control motor direction
+        self.ch2 = tim2.channel(2, pyb.Timer.PWM, pin=self.in2pin)
 
 
     def set_duty_cycle (self, level):
@@ -29,11 +30,16 @@ class MotorDriver:
                cycle of the voltage sent to the motor 
         """
         print (f"Setting duty cycle to {level}")
-        ch1.pulse_width_percent(0)
         
-    if __name__ == '__main__'
-        moe = MotorDriver (a_pin, another_pin, a_timer)
-        moe.set_duty_cycle (-42)
+        # if level positive
+        self.ch1.pulse_width_percent(0)
+        self.ch2.pulse_width_percent(level)
+        
+        # if level negative, make level positive, then do switch level and 0
+        
+if __name__ == '__main__':
+    moe = MotorDriver (pyb.Pin.board.PA10, pyb.Pin.board.PB4, pyb.Pin.board.PB5, 3)
+    moe.set_duty_cycle (42)
     
         
         
