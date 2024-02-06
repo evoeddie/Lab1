@@ -5,6 +5,7 @@
 # ch1 = tim2.channel(1, pyb.Timer.PWM_INVERTED, pin=pinA0)
 # ch1.pulse_width_percent(90)
 
+#bobobobo
 import time
 
 def led_setup():
