@@ -1,6 +1,7 @@
 class MotorDriver:
     """! 
     This class implements a motor driver for an ME405 kit. 
+    @author Alia Wolken, Eduardo Santos, Andrew Jwaideh
     """
 
     def __init__ (self, en_pin, in1pin, in2pin, timer):
