@@ -33,10 +33,13 @@ class MotorDriver:
         print (f"Setting duty cycle to {level}")
         
         # if level positive
-        self.ch1.pulse_width_percent(0)
-        self.ch2.pulse_width_percent(level)
-        
+        if level > 0:
+            self.ch1.pulse_width_percent(level)
+       
         # if level negative, make level positive, then do switch level and 0
+         if level < 0:
+            level_abs = abs(level)
+            self.ch2.pulse_width_percent(level)
         
 if __name__ == '__main__':
     moe = MotorDriver (pyb.Pin.board.PA10, pyb.Pin.board.PB4, pyb.Pin.board.PB5, 3)
