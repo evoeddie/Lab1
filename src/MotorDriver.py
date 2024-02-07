@@ -1,4 +1,5 @@
-class MotorDriver:
+import pyb
+class motordriver:
     """! 
     This class implements a motor driver for an ME405 kit. 
     @author Alia Wolken, Eduardo Santos, Andrew Jwaideh
@@ -16,7 +17,7 @@ class MotorDriver:
         self.in1pin = pyb.Pin(in1pin, pyb.Pin.OUT_PP) # allows variable to be used across functions
         self.in2pin = pyb.Pin(in2pin, pyb.Pin.OUT_PP)
 
-        tim2 = pyb.Timer(timer, freq=100)
+        tim2 = pyb.Timer(timer, freq=1000)
         self.ch1 = tim2.channel(1, pyb.Timer.PWM, pin=self.in1pin) # control motor direction
         self.ch2 = tim2.channel(2, pyb.Timer.PWM, pin=self.in2pin)
 
@@ -31,19 +32,28 @@ class MotorDriver:
                cycle of the voltage sent to the motor 
         """
         print (f"Setting duty cycle to {level}")
-        
+        print(level)
         # if level positive
         if level > 0:
-            self.ch1.pulse_width_percent(level)
-       
-        # if level negative, make level positive, then do switch level and 0
-         if level < 0:
-            level_abs = abs(level)
+            self.ch1.pulse_width_percent(0)
             self.ch2.pulse_width_percent(level)
-        
+            
+            print("pos")
+        # if level negative, make level positive, then do switch level and 0
+        elif level  == 0:
+            self.ch1.pulse_width_percent(0)
+            self.ch2.pulse_width_percent(0)
+            print("zero")
+        else:
+            evel_abs = abs(level)
+            print(level)
+            self.ch1.pulse_width_percent(evel_abs)
+            self.ch2.pulse_width_percent(0)
+            print("negative")
 if __name__ == '__main__':
-    moe = MotorDriver (pyb.Pin.board.PA10, pyb.Pin.board.PB4, pyb.Pin.board.PB5, 3)
-    moe.set_duty_cycle (42)
+    
+     moe = motordriver (pyb.Pin.board.PA10, pyb.Pin.board.PB4, pyb.Pin.board.PB5, 3)
+     moe.set_duty_cycle (-100)
     
         
         
