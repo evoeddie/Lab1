@@ -17,7 +17,7 @@ class motordriver:
         self.in1pin = pyb.Pin(in1pin, pyb.Pin.OUT_PP) # allows variable to be used across functions
         self.in2pin = pyb.Pin(in2pin, pyb.Pin.OUT_PP)
 
-        tim2 = pyb.Timer(timer, freq=1000)
+        tim2 = pyb.Timer(timer, freq=20000)
         self.ch1 = tim2.channel(1, pyb.Timer.PWM, pin=self.in1pin) # control motor direction
         self.ch2 = tim2.channel(2, pyb.Timer.PWM, pin=self.in2pin)
 
@@ -43,13 +43,13 @@ class motordriver:
         elif level  == 0:
             self.ch1.pulse_width_percent(0)
             self.ch2.pulse_width_percent(0)
-            print("zero")
+            #print("zero")
         else:
             evel_abs = abs(level)
             print(level)
             self.ch1.pulse_width_percent(evel_abs)
             self.ch2.pulse_width_percent(0)
-            print("negative")
+            #print("negative")
 if __name__ == '__main__':
 
                       
